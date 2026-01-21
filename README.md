@@ -1,6 +1,6 @@
 ## SkillSync_Server 🖥️
 
-*Backend services for the SkillSync platform*
+_Backend services for the SkillSync platform_
 
 ## 📝 Overview
 
@@ -10,24 +10,25 @@ It handles indexing, user metadata, analytics, notifications, and integrations t
 The backend works alongside the Stellar network without custody of user funds.
 
 ## ✨ Features
+
 - User metadata management
 - Mentorship session records
 - Event indexing from Stellar
 - Notifications & emails
 - API layer for frontend
 
-
 ## 🛠️ Technologies Used
+
 - Node.js
 - NestJS
 - TypeScript
-- PostgreSQL 
+- PostgreSQL
 - Stellar Horizon API
-
 
 ## Setup & Installation
 
 ### Prerequisites
+
 - Node.js ≥ 18
 - Database (PostgreSQL)
 - Environment variables configured
@@ -72,6 +73,21 @@ npm run start:dev
 yarn start:dev
 ```
 
+## 🏥 Health Check
+
+The API includes a health check endpoint for monitoring:
+
+**GET** `/healthz`
+
+Response:
+
+```json
+{
+  "status": "ok",
+  "timestamp": 1234567890
+}
+```
+
 ## 🚀 Usage
 
 ### For Mentees
@@ -92,22 +108,76 @@ yarn start:dev
 ### Admin Dashboard
 
 Access the admin dashboard at `/admin` with appropriate credentials to:
+
 - Manage users
 - Monitor platform activity
 - Generate reports
 - Configure system settings
 
 ## 📂 Project Structure
+
 ```
-  src/
-  ├── modules/
-  ├── controllers/
-  ├── services/
-  ├── entities/
-  ├── guards/
-  └── main.ts
+SkillSync_Server/
+├── apps/
+│   ├── api/                    # Main API application
+│   │   ├── src/
+│   │   │   ├── modules/       # Feature modules
+│   │   │   ├── controllers/   # Route controllers
+│   │   │   ├── services/      # Business logic
+│   │   │   ├── entities/      # Database entities
+│   │   │   ├── guards/        # Auth guards
+│   │   │   ├── health/        # Health check
+│   │   │   ├── app.module.ts
+│   │   │   └── main.ts
+│   │   └── test/              # E2E tests
+│   └── admin/                  # Admin dashboard (future)
+├── libs/
+│   ├── common/                 # Shared utilities
+│   │   ├── constants/
+│   │   ├── interfaces/
+│   │   ├── utils/
+│   │   └── decorators/
+│   ├── stellar/                # Stellar SDK integration
+│   └── database/               # Database config & entities
+└── package.json
 ```
 
+## 🔧 Development Guide
+
+### Adding a New Feature Module
+
+1. Generate the module in the API app:
+
+```bash
+cd apps/api
+nest g module feature-name
+nest g controller feature-name
+nest g service feature-name
+```
+
+2. Import the module in `app.module.ts`
+
+### Creating Shared Utilities
+
+Add reusable code to `libs/common/src`:
+
+```typescript
+// libs/common/src/utils/my-util.ts
+export class MyUtil {
+  static doSomething() {
+    // utility logic
+  }
+}
+
+// libs/common/src/index.ts
+export * from './utils/my-util';
+```
+
+Use in your app:
+
+```typescript
+import { MyUtil } from '@app/common';
+```
 
 ## 👥 Contributing
 
@@ -128,6 +198,40 @@ We welcome contributions from the community! Please follow these steps:
    ```
 5. Open a pull request
 
+### Code Style
+
+- Run `npm run lint` before committing
+- Use `npm run format` to auto-format code
+- Follow TypeScript best practices
+- Write tests for new features
+
+## 📚 Project Structure Explained
+
+### `/apps` Directory
+
+Contains deployable applications:
+
+- **api**: Main REST API service
+- **admin**: Admin dashboard (future)
+- **worker**: Background job processor (future)
+
+### `/libs` Directory
+
+Contains shared libraries:
+
+- **common**: Utilities, constants, interfaces
+- **stellar**: Stellar blockchain integration
+- **database**: Database configuration and entities
+
+### Path Aliases
+
+Import from shared libraries using aliases:
+
+```typescript
+import { StringUtil } from '@app/common';
+import { StellarService } from '@app/stellar';
+```
+
 Please read our [Contributing Guide](CONTRIBUTING.md) for more details.
 
 ## 📄 License
@@ -137,3 +241,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Built with ❤️ by the Mentorship Marketplace Team
+
