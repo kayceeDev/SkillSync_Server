@@ -6,4 +6,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(process.env.PORT || DEFAULT_PORT);
 }
-bootstrap();
+void bootstrap()
+  .catch((err) => {
+    console.error('Error during app bootstrap:', err);
+    process.exit(1);
+  })
+  .then(() => {
+    console.log(
+      `Application is running on: http://localhost:${process.env.PORT || DEFAULT_PORT}`,
+    );
+  });
